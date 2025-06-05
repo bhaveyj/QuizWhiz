@@ -57,51 +57,62 @@ export const QuizPage = () => {
 
   return (
     <div>
+      
+      <div className="bg-gray-100">
         <Navbar />
-    <div className="max-w-2xl mx-auto px-4 py-6">
-      <h1 className="text-2xl font-bold mb-4">{quiz.topic} Quiz</h1>
-      {quiz.questions.map((q, index) => (
-        <div key={index} className="mb-6">
-          <p className="font-semibold mb-2">
-            {index + 1}. {q.question}
-          </p>
-          <div className="grid gap-2">
-            {q.options.map((opt, optIndex) => (
-              <label
-                key={optIndex}
-                className="flex items-center gap-2 cursor-pointer"
-              >
-                <input
-                  type="radio"
-                  name={`question-${index}`}
-                  value={opt}
-                  checked={answers[index] === opt}
-                  onChange={() => handleSelect(index, opt)}
-                  className="accent-blue-600"
-                />
-                {opt}
-              </label>
-            ))}
+      <div className="max-w-3xl mx-auto px-6 py-10 bg-white rounded-xl shadow-md mt-5">
+        <h1 className="text-3xl font-bold text-center text-gray-800 mb-8">
+          {quiz.topic} Quiz
+        </h1>
+
+        {quiz.questions.map((q, index) => (
+          <div key={index} className="mb-8 border-b pb-6">
+            <p className="text-lg font-medium text-gray-700 mb-4">
+              {index + 1}. {q.question}
+            </p>
+            <div className="grid gap-3">
+              {q.options.map((opt, optIndex) => (
+                <label
+                  key={optIndex}
+                  className={`flex items-center gap-3 p-3 rounded-md border cursor-pointer transition-all ${
+                    answers[index] === opt
+                      ? "bg-blue-50 border-blue-500"
+                      : "hover:bg-gray-100"
+                  }`}
+                >
+                  <input
+                    type="radio"
+                    name={`question-${index}`}
+                    value={opt}
+                    checked={answers[index] === opt}
+                    onChange={() => handleSelect(index, opt)}
+                    className="accent-blue-600"
+                  />
+                  <span className="text-gray-800">{opt}</span>
+                </label>
+              ))}
+            </div>
           </div>
-        </div>
-      ))}
-      {score === null ? (
-        <button
-          onClick={handleSubmit}
-          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
-        >
-          Submit Quiz
-        </button>
-      ) : (
-        <div
-          className={`mt-4 font-bold text-lg ${
-            score === 0 ? "text-red-600" : "text-green-600"
-          }`}
-        >
-          Your Score: {score}/{quiz.questions.length}
-        </div>
-      )}
-    </div>
+        ))}
+
+        {score === null ? (
+          <button
+            onClick={handleSubmit}
+            className="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold text-lg shadow hover:bg-blue-700 transition"
+          >
+            Submit Quiz
+          </button>
+        ) : (
+          <div
+            className={`mt-6 text-center text-2xl font-bold ${
+              score === 0 ? "text-red-600" : "text-green-600"
+            }`}
+          >
+            Your Score: {score}/{quiz.questions.length}
+          </div>
+        )}
+      </div>
+      </div>
     </div>
   );
 };
