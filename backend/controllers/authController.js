@@ -63,25 +63,20 @@ export const login = async (req, res) => {
 };
 
 export const getMe = async (req, res) => {
-  const userId = req.user.userId;
-  const { password } = req.body; // Assuming password is sent in the request body for validation
-
   try {
     const user = await prisma.user.findUnique({
       where: {
-        id: userId,
+        id: req.user.userId,
+      },
+      select: {
+        id: true,
+        email: true,
       },
     });
 
     if (!user) {
       return res.status(404).json({
         message: "User not found",
-      });
-    }
-    const passwordMatch = await bcrypt.compare(password, user.password);
-    if (!passwordMatch) {
-      return res.status(400).json({
-        message: "Invalid password",
       });
     }
 
@@ -96,3 +91,4 @@ export const getMe = async (req, res) => {
     });
   }
 };
+
