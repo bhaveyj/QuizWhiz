@@ -26,7 +26,7 @@ export const GenerateQuiz = () => {
   };
 
   return (
-    <div>
+    <div className="bg-gray-100 min-h-screen">
         <Navbar />
     <div className="max-w-md mx-auto mt-10 p-6 bg-white shadow-md rounded-lg">
       <h2 className="text-2xl font-bold mb-4">Generate a Quiz</h2>

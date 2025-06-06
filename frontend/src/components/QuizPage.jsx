@@ -58,7 +58,7 @@ export const QuizPage = () => {
   return (
     <div>
       
-      <div className="bg-gray-100">
+      <div className="bg-gray-100 min-h-screen">
         <Navbar />
       <div className="max-w-3xl mx-auto px-6 py-10 bg-white rounded-xl shadow-md mt-5">
         <h1 className="text-3xl font-bold text-center text-gray-800 mb-8">

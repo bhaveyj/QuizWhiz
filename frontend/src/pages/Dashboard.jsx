@@ -7,6 +7,7 @@ import Navbar from "../components/NavBar";
 const Dashboard = () => {
   const [user, setUser] = useState(null);
   const [recentQuizzes, setRecentQuizzes] = useState([]);
+  const [summary, setSummary] = useState({ total: 0, perfectScore: 0});
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -34,28 +35,43 @@ const Dashboard = () => {
     fetchData();
   }, [navigate]);
 
+  useEffect(() => {
+  const fetchSummary = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      const res = await axios.get(`${BACKEND_URL}/quiz/summary`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setSummary(res.data);
+    } catch (error) {
+      console.error("Error fetching quiz summary", error);
+    }
+  };
+
+  fetchSummary(); 
+}, []); 
+
+
   return (
-    <div>
+    <div className="bg-gray-100 min-h-screen">
       <Navbar />
-      <div className="max-w-4xl mx-auto p-6">
+      <div className="max-w-4xl mx-auto p-6 bg-white mt-10">
         {user ? (
           <>
             <h1 className="text-2xl font-bold mb-6">Welcome, {user.name} 👋</h1>
 
-            {/* Quick Actions */}
+            {/* Dashboard Summary */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
-              <Link
-                to="/quiz/generate"
-                className="p-4 bg-blue-600 text-white rounded shadow hover:bg-blue-700 text-center font-semibold"
-              >
-                ➕ Generate New Quiz
-              </Link>
-              <Link
-                to="/quiz"
-                className="p-4 bg-green-600 text-white rounded shadow hover:bg-green-700 text-center font-semibold"
-              >
-                📚 View My Quizzes
-              </Link>
+              <div className="p-4 bg-blue-100 text-blue-800 rounded shadow text-center">
+                <p className="text-xl font-bold">{summary.total}</p>
+                <p className="text-sm">Total Quizzes</p>
+              </div>
+              <div className="p-4 bg-green-100 text-green-800 rounded shadow text-center">
+                <p className="text-xl font-bold">
+                  {summary.perfectScore}
+                </p>
+                <p className="text-sm">Perfect Scores</p>
+              </div>
             </div>
 
             {/* Recent Quizzes */}

@@ -120,3 +120,22 @@ export const submitQuiz = async (req, res) => {
     res.status(500).json({ error: 'Something went wrong' });
   }
 };
+
+export const summaryQuiz = async (req, res) => {
+  try {
+    const userId = req.user.userId;
+    const total = await prisma.quiz.count({
+      where: { userId },
+    })
+    const perfectScore = await prisma.quiz.count({
+      where: {
+        userId,
+        score: 5
+      }
+    })
+    res.json({total, perfectScore});
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Error fetching quiz summary' });
+  }
+}

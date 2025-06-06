@@ -17,9 +17,11 @@ export const signup = async (req, res) => {
         password: hashedPassword,
       },
     });
+    const token = jwt.sign({userId: user.id}, JWT_SECRET,{ expiresIn: '7d'} )
     res.status(201).json({
       message: "User created successfully",
       user,
+      token
     });
   } catch (error) {
     res.status(400).json({
